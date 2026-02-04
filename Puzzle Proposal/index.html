@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A proposal in pieces for Shivani Jain" />
+    <title>Puzzle Proposal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="app" class="app">
+        <div class="background-glow"></div>
+
+        <header class="top-bar">
+            <div class="brand">A Proposal in Pieces</div>
+            <div class="controls">
+                <button id="music-toggle" class="icon-button" aria-label="Toggle music">
+                    <span class="icon">Music</span>
+                </button>
+            </div>
+        </header>
+
+        <section id="landing" class="landing">
+            <div class="landing-card">
+                <div class="landing-title">For Shivani Jain</div>
+                <h1>Put the pieces together</h1>
+                <p>
+                    A small puzzle, a big surprise. Drag the pieces, snap them into place,
+                    and reveal the message I have been waiting to share.
+                </p>
+                <button id="start-button" class="primary-button">Start Puzzle</button>
+                <div class="landing-hint">Hint: pieces snap when close.</div>
+            </div>
+        </section>
+
+        <main id="game" class="game hidden">
+            <div class="game-header">
+                <div class="progress-text">Progress: <span id="progress-count">0</span>/20</div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="game-area" id="game-area">
+                <div class="puzzle-board" id="puzzle-board"></div>
+                <div class="piece-tray" id="piece-tray">
+                    <div class="tray-title">Pieces</div>
+                </div>
+            </div>
+        </main>
+
+        <div id="completion-overlay" class="completion-overlay">
+            <div class="completion-card">
+                <div class="completion-title">Shivani Jain</div>
+                <div id="proposal-message" class="completion-message"></div>
+                <div class="completion-signature">All my love, Ishaan</div>
+                <div class="completion-actions">
+                    <button id="restart-button" class="secondary-button">Restart Puzzle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="background-music" loop preload="auto"></audio>
+    <script src="app.js"></script>
+</body>
+
+</html>
