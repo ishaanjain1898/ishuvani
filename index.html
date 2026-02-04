@@ -1,42 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Love Box</title>
-<style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family: "Segoe UI", Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <title>Love Box</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
 
-    .love-box {
-        background: linear-gradient(135deg, #ff6f91, #ffb6c1);
-        border: 4px solid #fff;
-        border-radius: 20px;
-        padding: 40px 60px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        text-align: center;
-    }
+        .love-box {
+            background: linear-gradient(135deg, #ff6f91, #ffb6c1);
+            border: 4px solid #fff;
+            border-radius: 20px;
+            padding: 40px 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
 
-    .love-text {
-        font-size: 56px;
-        font-weight: bold;
-        color: white;
-        text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-    }
-</style>
+        .love-text {
+            font-size: 56px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .rose-day-btn {
+            position: relative;
+            display: inline-block;
+            padding: 20px 50px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff0080, #ff8c00, #ff0080);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(255, 0, 128, 0.5);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: gradientShift 3s ease infinite, pulseGlow 2s ease-in-out infinite;
+        }
+
+        .rose-day-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 0, 128, 0.7);
+        }
+
+        .rose-day-btn:active {
+            transform: translateY(-2px) scale(0.98);
+            animation: explode 0.6s ease-out;
+        }
+
+        .rose-day-btn::before {
+            content: '🌹';
+            position: absolute;
+            font-size: 40px;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: floatRose 2s ease-in-out infinite;
+        }
+
+        .rose-day-btn::after {
+            content: '🌹';
+            position: absolute;
+            font-size: 40px;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: floatRose 2s ease-in-out infinite 1s;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 8px 25px rgba(255, 0, 128, 0.5),
+                    0 0 0 0 rgba(255, 0, 128, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 8px 25px rgba(255, 0, 128, 0.8),
+                    0 0 0 20px rgba(255, 0, 128, 0);
+            }
+        }
+
+        @keyframes floatRose {
+
+            0%,
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateY(-65%) scale(1.2);
+            }
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Floating particles effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0;
+            animation: floatParticle 8s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            left: 25%;
+            animation-delay: 1.5s;
+        }
+
+        .particle:nth-child(3) {
+            left: 40%;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(4) {
+            left: 55%;
+            animation-delay: 4.5s;
+        }
+
+        .particle:nth-child(5) {
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .particle:nth-child(6) {
+            left: 85%;
+            animation-delay: 7.5s;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                bottom: -10%;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(100px) rotate(720deg);
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="particles">
+        <div class="particle">🌹</div>
+        <div class="particle">💖</div>
+        <div class="particle">🌺</div>
+        <div class="particle">🌹</div>
+        <div class="particle">💝</div>
+        <div class="particle">🌷</div>
+    </div>
+
     <div class="love-box">
         <div class="love-text">
             Here is my love for you!
         </div>
+        <a href="Interactive Rose Garden/index.html" class="rose-day-btn">
+            Happy Rose Day! 💕
+        </a>
     </div>
 </body>
+
 </html>

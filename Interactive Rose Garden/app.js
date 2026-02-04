@@ -19,8 +19,8 @@ const state = {
     isLoading: true,
 };
 
-// Love Notes for Shivani (all 34 personalized messages)
-const loveNotes = [
+// Fallback love notes (used if LoveNotes.txt fails to load)
+const fallbackNotes = [
     "I love how you light up when talking about things you're passionate about. The way your hands move faster, your voice gets animated, and your whole face glows—it's like watching someone come alive, and it's beautiful.",
     "I love how you remember the tiniest details about things I've mentioned in passing. You'll bring up something I said weeks ago, and it reminds me that you truly listen and care about everything I share.",
     "I love how you make everyone around you feel special and valued.",
@@ -57,6 +57,9 @@ const loveNotes = [
     "You are my greatest adventure. Every day with you is a new discovery, a new experience, a new reason to fall in love with you all over again. I can't wait to see where this journey takes us."
 ];
 
+// Love notes loaded from LoveNotes.txt
+let loveNotes = [];
+
 // DOM Elements
 let loadingScreen;
 let musicToggle;
@@ -85,6 +88,34 @@ function initializeElements() {
     // Using a placeholder URL - will be replaced with actual royalty-free music
     backgroundMusic.src = 'https://www.bensound.com/bensound-music/bensound-romantic.mp3';
     backgroundMusic.volume = 0.3;
+
+    // Load love notes from LoveNotes.txt (fallback to embedded list)
+    loadLoveNotes();
+}
+
+async function loadLoveNotes() {
+    try {
+        const response = await fetch('LoveNotes.txt', { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error(`LoveNotes.txt load failed: ${response.status}`);
+        }
+        const text = await response.text();
+        const lines = text
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean);
+
+        if (lines.length > 0) {
+            loveNotes = lines;
+            console.log(`💌 Loaded ${loveNotes.length} love notes from LoveNotes.txt`);
+        } else {
+            loveNotes = [...fallbackNotes];
+            console.log('💌 LoveNotes.txt empty, using fallback notes');
+        }
+    } catch (error) {
+        loveNotes = [...fallbackNotes];
+        console.log('💌 LoveNotes.txt unavailable, using fallback notes:', error);
+    }
 }
 
 function setupEventListeners() {
@@ -143,11 +174,220 @@ function initializeGarden() {
     // Setup love note modal
     setupLoveNoteModal();
 
+    // TASK 7: Setup instruction tooltip
+    setupInstructionTooltip();
+
+    // TASK 7: Add easter eggs
+    setupEasterEggs();
+
     // Auto-play music (with user interaction fallback)
     tryAutoPlayMusic();
 
     console.log('✨ Garden is ready! Click the soil to plant roses');
 }
+
+// ========================================
+// TASK 7: INSTRUCTION TOOLTIP
+// ========================================
+
+function setupInstructionTooltip() {
+    const tooltip = document.getElementById('instruction-tooltip');
+    const dismissBtn = document.getElementById('dismiss-tooltip');
+
+    // Check if user has visited before
+    const hasVisited = localStorage.getItem('gardenVisited');
+
+    if (!hasVisited) {
+        // Show tooltip on first visit
+        setTimeout(() => {
+            if (tooltip) {
+                tooltip.classList.remove('hidden');
+            }
+        }, 1000);
+
+        // Auto-dismiss after 5 seconds
+        const autoDismissTimer = setTimeout(() => {
+            dismissTooltip();
+        }, 6000);
+
+        // Manual dismiss
+        if (dismissBtn) {
+            dismissBtn.addEventListener('click', () => {
+                clearTimeout(autoDismissTimer);
+                dismissTooltip();
+            });
+        }
+
+        // Dismiss on first click anywhere
+        const dismissOnClick = () => {
+            clearTimeout(autoDismissTimer);
+            dismissTooltip();
+            document.removeEventListener('click', dismissOnClick);
+        };
+
+        setTimeout(() => {
+            document.addEventListener('click', dismissOnClick);
+        }, 1500);
+    } else {
+        // Hide immediately if already visited
+        if (tooltip) {
+            tooltip.classList.add('hidden');
+        }
+    }
+
+    function dismissTooltip() {
+        if (tooltip) {
+            tooltip.classList.add('hidden');
+            localStorage.setItem('gardenVisited', 'true');
+            console.log('👋 Tooltip dismissed');
+        }
+    }
+
+    console.log('💡 Instruction tooltip initialized');
+}
+
+// ========================================
+// TASK 7: EASTER EGGS
+// ========================================
+
+function setupEasterEggs() {
+    // Easter Egg 1: Hidden Butterfly that appears randomly
+    createHiddenButterfly();
+
+    // Easter Egg 2: Clicking fence plays a special message
+    setupFenceEasterEgg();
+
+    // Easter Egg 3: One rose will be golden (the 7th rose)
+    // This will be applied when roses are planted
+
+    console.log('🎁 Easter eggs activated!');
+}
+
+function createHiddenButterfly() {
+    // Create a rare golden butterfly that appears every 30-60 seconds
+    const spawnButterfly = () => {
+        const butterfly = document.createElement('div');
+        butterfly.className = 'butterfly hidden-butterfly';
+        butterfly.style.cssText = `
+            position: absolute;
+            top: ${Math.random() * 60 + 20}%;
+            left: -50px;
+            z-index: 15;
+            cursor: pointer;
+            animation: flyButterfly 20s linear;
+        `;
+
+        butterfly.innerHTML = '🦋';
+        butterfly.style.fontSize = '2rem';
+        butterfly.style.filter = 'drop-shadow(0 0 10px gold)';
+
+        // Click to reveal message
+        butterfly.addEventListener('click', () => {
+            butterfly.style.animation = 'none';
+            butterfly.style.transform = 'scale(2)';
+            showSecretMessage('You found the magical butterfly! 🦋✨');
+
+            setTimeout(() => {
+                butterfly.remove();
+            }, 2000);
+        });
+
+        document.getElementById('garden').appendChild(butterfly);
+
+        // Remove after animation
+        setTimeout(() => {
+            if (butterfly.parentNode) {
+                butterfly.remove();
+            }
+        }, 20000);
+    };
+
+    // Spawn first butterfly after 15-45 seconds
+    setTimeout(() => {
+        spawnButterfly();
+        // Then spawn every 45-90 seconds
+        setInterval(spawnButterfly, 45000 + Math.random() * 45000);
+    }, 15000 + Math.random() * 30000);
+}
+
+function setupFenceEasterEgg() {
+    const fence = document.getElementById('fence-container');
+    let clickCount = 0;
+
+    if (fence) {
+        fence.style.cursor = 'pointer';
+        fence.addEventListener('click', () => {
+            clickCount++;
+
+            if (clickCount === 1) {
+                showSecretMessage('The fence protects our garden of love 🌹');
+            } else if (clickCount === 3) {
+                showSecretMessage('You really like this fence, huh? 😄');
+            } else if (clickCount >= 5) {
+                showSecretMessage('Okay, you found the easter egg! Here\'s a secret: This garden took hours to code with love 💜');
+                clickCount = 0; // Reset
+            }
+        });
+    }
+}
+
+function showSecretMessage(message) {
+    const secretMsg = document.createElement('div');
+    secretMsg.style.cssText = `
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 215, 0, 0.95);
+        color: #000;
+        padding: 1.5rem 2.5rem;
+        border-radius: 15px;
+        font-family: var(--font-serif);
+        font-size: 1.2rem;
+        font-weight: 600;
+        box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5);
+        z-index: 2002;
+        animation: tooltipBounce 0.5s ease-out;
+        text-align: center;
+        max-width: 80%;
+    `;
+    secretMsg.textContent = message;
+
+    document.body.appendChild(secretMsg);
+
+    // Play special sound
+    playSecretSound();
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        secretMsg.style.animation = 'tooltipFadeOut 0.5s ease-out forwards';
+        setTimeout(() => secretMsg.remove(), 500);
+    }, 3000);
+}
+
+function playSecretSound() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [523, 659, 784, 1047]; // C, E, G, High C - magical chord
+
+    notes.forEach((freq, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.1);
+
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime + index * 0.1);
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + index * 0.1 + 0.05);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.1 + 0.8);
+
+        oscillator.start(audioContext.currentTime + index * 0.1);
+        oscillator.stop(audioContext.currentTime + index * 0.1 + 0.8);
+    });
+}
+
 
 function generateFencePosts() {
     const fenceContainer = document.getElementById('fence-container');
@@ -314,17 +554,17 @@ function updateSkyGradient() {
 // Define 12 planting zones across the garden (adjusted to soil area only)
 const plantingZones = [
     { x: 15, y: 78, planted: false, roseColor: 'purple', messageIndex: 0 },
-    { x: 28, y: 82, planted: false, roseColor: 'pink', messageIndex: 1 },
-    { x: 42, y: 80, planted: false, roseColor: 'purple', messageIndex: 2 },
+    { x: 28, y: 82, planted: false, roseColor: 'coral', messageIndex: 1 },
+    { x: 42, y: 80, planted: false, roseColor: 'lavender', messageIndex: 2 },
     { x: 55, y: 84, planted: false, roseColor: 'red', messageIndex: 3 },
-    { x: 68, y: 79, planted: false, roseColor: 'purple', messageIndex: 4 },
+    { x: 68, y: 79, planted: false, roseColor: 'peach', messageIndex: 4 },
     { x: 82, y: 83, planted: false, roseColor: 'pink', messageIndex: 5 },
-    { x: 22, y: 86, planted: false, roseColor: 'pink', messageIndex: 6 },
-    { x: 35, y: 88, planted: false, roseColor: 'purple', messageIndex: 7 },
+    { x: 22, y: 86, planted: false, roseColor: 'magenta', messageIndex: 6 },
+    { x: 35, y: 88, planted: false, roseColor: 'yellow', messageIndex: 7 },
     { x: 50, y: 85, planted: false, roseColor: 'white', messageIndex: 8 },
-    { x: 62, y: 87, planted: false, roseColor: 'purple', messageIndex: 9 },
-    { x: 75, y: 81, planted: false, roseColor: 'pink', messageIndex: 10 },
-    { x: 88, y: 84, planted: false, roseColor: 'purple', messageIndex: 11 }
+    { x: 62, y: 87, planted: false, roseColor: 'crimson', messageIndex: 9 },
+    { x: 75, y: 81, planted: false, roseColor: 'lavender', messageIndex: 10 },
+    { x: 88, y: 84, planted: false, roseColor: 'coral', messageIndex: 11 }
 ];
 
 function setupPlantingMechanics() {
@@ -431,6 +671,16 @@ function createRose(zone) {
     // Create rose container
     const rose = document.createElement('div');
     rose.className = `rose ${zone.roseColor}`;
+
+    // TASK 7 Easter Egg: Make the 7th rose golden
+    if (state.rosesPlanted === 7) {
+        // Remove the original color class and replace with golden
+        rose.classList.remove(zone.roseColor);
+        rose.classList.add('golden');
+        console.log('✨ GOLDEN ROSE PLANTED! You found the rare golden rose! ✨');
+    }
+
+
     rose.style.left = `${zone.x}%`;
     rose.style.bottom = `${100 - zone.y}%`;
     rose.style.transform = 'translateX(-50%)';
@@ -491,6 +741,13 @@ function createRose(zone) {
 
         // Add click handler for love note
         rose.addEventListener('click', () => showLoveNote(zone.messageIndex));
+
+        // TASK 7: Show golden rose message if it's the special rose
+        if (state.rosesPlanted === 7) {
+            setTimeout(() => {
+                showSecretMessage('🌟 WOW! You planted the RARE GOLDEN ROSE! 🌟');
+            }, 1000);
+        }
     }, 2500); // Total animation time
 
     zone.roseElement = rose;
@@ -528,12 +785,13 @@ function showLoveNote(messageIndex) {
     const overlay = document.getElementById('love-note-overlay');
     const messageEl = document.getElementById('note-message');
     const counterEl = document.getElementById('note-counter');
+    const activeNotes = getActiveNotes();
 
     // Set the message
-    messageEl.textContent = loveNotes[messageIndex];
+    messageEl.textContent = activeNotes[messageIndex] || activeNotes[0] || '';
 
     // Set the counter
-    counterEl.textContent = `Love Note ${messageIndex + 1} of ${loveNotes.length}`;
+    counterEl.textContent = `Love Note ${messageIndex + 1} of ${activeNotes.length}`;
 
     // Show the modal
     overlay.classList.add('active');
@@ -542,6 +800,11 @@ function showLoveNote(messageIndex) {
     playLoveNoteSound();
 
     console.log(`💌 Showing love note #${messageIndex + 1}`);
+}
+
+function getActiveNotes() {
+    const sourceNotes = loveNotes.length ? loveNotes : fallbackNotes;
+    return sourceNotes.slice(0, CONFIG.totalRoses);
 }
 
 function hideLoveNote() {
