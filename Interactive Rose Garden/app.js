@@ -657,7 +657,10 @@ function plantRose(zone, clickX, clickY) {
     // Check if all roses are planted
     if (state.rosesPlanted >= CONFIG.totalRoses) {
         console.log('🎉 All roses planted! Garden complete!');
-        // TODO: TASK 6 - Trigger completion sequence
+        // TASK 6 - Trigger completion sequence
+        setTimeout(() => {
+            showCompletionMessage();
+        }, 2000); // Wait 2 seconds after last rose blooms
     }
 }
 
@@ -739,8 +742,16 @@ function createRose(zone) {
         rose.classList.add('bloomed');
         console.log(`🌹 Rose #${state.rosesPlanted} bloomed!`);
 
-        // Add click handler for love note
+        // Add click handler for love note (so they can re-read)
         rose.addEventListener('click', () => showLoveNote(zone.messageIndex));
+
+        // Auto-show love note for roses 1-11 (not the 12th)
+        if (state.rosesPlanted < CONFIG.totalRoses) {
+            // Wait a moment after bloom, then auto-show the note
+            setTimeout(() => {
+                showLoveNote(zone.messageIndex);
+            }, 500);
+        }
 
         // TASK 7: Show golden rose message if it's the special rose
         if (state.rosesPlanted === 7) {
@@ -787,11 +798,15 @@ function showLoveNote(messageIndex) {
     const counterEl = document.getElementById('note-counter');
     const activeNotes = getActiveNotes();
 
-    // Set the message
-    messageEl.textContent = activeNotes[messageIndex] || activeNotes[0] || '';
+    // Pick a random message from all available notes
+    const randomIndex = Math.floor(Math.random() * activeNotes.length);
+    const randomMessage = activeNotes[randomIndex];
 
-    // Set the counter
-    counterEl.textContent = `Love Note ${messageIndex + 1} of ${activeNotes.length}`;
+    // Set the random message
+    messageEl.textContent = randomMessage;
+
+    // Hide the counter (don't show any numbering)
+    counterEl.textContent = '';
 
     // Show the modal
     overlay.classList.add('active');
@@ -799,12 +814,13 @@ function showLoveNote(messageIndex) {
     // Play a soft chime
     playLoveNoteSound();
 
-    console.log(`💌 Showing love note #${messageIndex + 1}`);
+    console.log(`💌 Showing random love note #${randomIndex + 1}`);
 }
 
 function getActiveNotes() {
+    // Return all available notes (32 total) for random selection
     const sourceNotes = loveNotes.length ? loveNotes : fallbackNotes;
-    return sourceNotes.slice(0, CONFIG.totalRoses);
+    return sourceNotes; // Return all notes, not just first 12
 }
 
 function hideLoveNote() {
@@ -937,6 +953,91 @@ function playPlantingSound() {
 
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + 0.2);
+}
+
+// ========================================
+// TASK 6: COMPLETION SEQUENCE
+// ========================================
+
+function showCompletionMessage() {
+    const overlay = document.getElementById('completion-overlay');
+
+    if (!overlay) {
+        console.error('Completion overlay not found');
+        return;
+    }
+
+    // Show the completion overlay
+    overlay.classList.add('active');
+
+    // Play completion sound
+    playCompletionSound();
+
+    // Add extra sparkle effects around the garden
+    createCompletionEffects();
+
+    console.log('🎊 Completion message displayed!');
+}
+
+function playCompletionSound() {
+    // Triumphant romantic chord progression
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const notes = [
+        [261.63, 329.63, 392.00], // C major chord
+        [293.66, 369.99, 440.00], // D major chord
+        [329.63, 415.30, 493.88], // E major chord
+        [392.00, 493.88, 587.33]  // G major chord - triumphant finish
+    ];
+
+    notes.forEach((chord, chordIndex) => {
+        chord.forEach((freq, noteIndex) => {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + chordIndex * 0.5);
+
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime + chordIndex * 0.5);
+            gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + chordIndex * 0.5 + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + chordIndex * 0.5 + 1.2);
+
+            oscillator.start(audioContext.currentTime + chordIndex * 0.5);
+            oscillator.stop(audioContext.currentTime + chordIndex * 0.5 + 1.2);
+        });
+    });
+}
+
+function createCompletionEffects() {
+    // Create multiple sparkle bursts around the garden
+    const garden = document.getElementById('garden');
+    const positions = [
+        { x: 20, y: 70 },
+        { x: 40, y: 75 },
+        { x: 60, y: 72 },
+        { x: 80, y: 76 }
+    ];
+
+    positions.forEach((pos, index) => {
+        setTimeout(() => {
+            // Create sparkles at each position
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'completion-sparkle';
+                sparkle.style.left = `${pos.x}%`;
+                sparkle.style.top = `${pos.y}%`;
+                sparkle.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+                sparkle.style.setProperty('--ty', `${-Math.random() * 100}px`);
+                sparkle.style.animationDelay = `${i * 0.05}s`;
+
+                garden.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }, index * 300);
+    });
 }
 
 // ========================================
