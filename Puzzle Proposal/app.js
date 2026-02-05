@@ -31,12 +31,20 @@ const proposalMessages = [
     "Shivani Jain,\n\nI choose you in every version of my future.\nWill you choose me too?\n\nWith all my love,\nIshaan",
 ];
 
-const puzzleImages = [
-    "../Images/Propose Day/roka.png",
-    "../Images/Propose Day/roka 2.png",
-    "../Images/Propose Day/roka 3.png",
-    "../Images/Propose Day/pre wed 4.JPG",
-    "../Images/Propose Day/pre wed 5.JPG",
+const desktopPuzzleImages = [
+    "../Images/Propose Day/Desktop/roka.png",
+    "../Images/Propose Day/Desktop/roka 2.png",
+    "../Images/Propose Day/Desktop/roka 3.png",
+    "../Images/Propose Day/Desktop/pre wed 4.JPG",
+    "../Images/Propose Day/Desktop/pre wed 5.JPG",
+];
+
+const mobilePuzzleImages = [
+    "../Images/Propose Day/Mobile/DSC05365.JPG",
+    "../Images/Propose Day/Mobile/DSC05483.JPG",
+    "../Images/Propose Day/Mobile/image 1.jpg",
+    "../Images/Propose Day/Mobile/image 2.jpg",
+    "../Images/Propose Day/Mobile/image 3.jpg",
 ];
 
 const state = {
@@ -84,9 +92,15 @@ function init() {
     });
 
     state.selectedMessage = proposalMessages[Math.floor(Math.random() * proposalMessages.length)];
-    baseImage.dataUrl = encodeURI(puzzleImages[Math.floor(Math.random() * puzzleImages.length)]);
+    baseImage.dataUrl = encodeURI(selectPuzzleImage());
     dom.proposalMessage.textContent = state.selectedMessage;
 
+}
+
+function selectPuzzleImage() {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const source = isMobile ? mobilePuzzleImages : desktopPuzzleImages;
+    return source[Math.floor(Math.random() * source.length)];
 }
 
 function startPuzzle() {

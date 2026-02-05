@@ -362,6 +362,11 @@ body {
 
     .piece-tray {
         padding: 0.75rem;
+        height: clamp(140px, 26vh, 200px);
+    }
+
+    .puzzle-board {
+        aspect-ratio: 3 / 5;
     }
 }
 
