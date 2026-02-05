@@ -266,8 +266,9 @@ function checkProximity(piece) {
     const currentX = rect.left - gameRect.left;
     const currentY = rect.top - gameRect.top;
     const distance = Math.hypot(piece.correctX - currentX, piece.correctY - currentY);
+    const snapThreshold = window.innerWidth <= 768 ? CONFIG.snapDistance + 12 : CONFIG.snapDistance;
 
-    if (distance <= CONFIG.snapDistance) {
+    if (distance <= snapThreshold) {
         piece.el.classList.add("near");
         return true;
     }
