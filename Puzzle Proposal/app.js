@@ -1,34 +1,42 @@
 const CONFIG = {
-    rows: 4,
+    rows: 3,
     cols: 5,
-    totalPieces: 20,
+    totalPieces: 15,
     snapDistance: 30,
     boardWidth: 1000,
-    boardHeight: 800,
+    boardHeight: 600,
     musicUrl: "https://www.bensound.com/bensound-music/bensound-romantic.mp3",
 };
 
 const proposalMessages = [
-    "Shivani Jain,\n\nEvery piece of my life makes more sense with you in it.\nWill you keep choosing me, today and always?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYou are the calm in my chaos and the spark in my days.\nWill you be my forever Valentine?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nThis puzzle is tiny compared to how you complete me.\nWill you keep building this life with me?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI found my favorite place in the world, right beside you.\nWill you be my always?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYou are my missing piece, my safe place, my best decision.\nWill you keep being my forever?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nEvery day with you feels like a new chapter I never want to end.\nWill you keep writing it with me?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nIf love is a puzzle, you are the piece that makes it whole.\nWill you stay my forever Valentine?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI promise to choose you in all the small moments and the big ones.\nWill you keep choosing me too?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYou turn ordinary days into my favorite memories.\nWill you be my forever?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nWith you, I feel at home, no matter where we are.\nWill you be my always and forever?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI want to keep building a life that makes us both proud.\nWill you do it with me?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYour love is the best part of my story.\nWill you keep writing it with me?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYou are my favorite person, my best friend, my everything.\nWill you be my forever Valentine?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nNo matter how life changes, I want my hand in yours.\nWill you be my always?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nEvery piece of us fits perfectly, even when we are different.\nWill you keep fitting your life with mine?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nYou make me believe in magic, in timing, and in us.\nWill you be my forever?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI want to love you in ways that keep surprising you.\nWill you keep letting me?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI do not have all the answers, but I know you are mine.\nWill you be my always and forever?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI want to celebrate every win and hold you through every storm.\nWill you be my forever Valentine?\n\nAll my love,\nIshaan",
-    "Shivani Jain,\n\nI choose you in every version of my future.\nWill you choose me too?\n\nAll my love,\nIshaan",
+    "Shivani Jain,\n\nEvery piece of my life makes more sense with you in it.\nWill you keep choosing me, today and always?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYou are the calm in my chaos and the spark in my days.\nWill you be my forever Valentine?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nThis puzzle is tiny compared to how you complete me.\nWill you keep building this life with me?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI found my favorite place in the world, right beside you.\nWill you be my always?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYou are my missing piece, my safe place, my best decision.\nWill you keep being my forever?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nEvery day with you feels like a new chapter I never want to end.\nWill you keep writing it with me?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nIf love is a puzzle, you are the piece that makes it whole.\nWill you stay my forever Valentine?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI promise to choose you in all the small moments and the big ones.\nWill you keep choosing me too?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYou turn ordinary days into my favorite memories.\nWill you be my forever?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nWith you, I feel at home, no matter where we are.\nWill you be my always and forever?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI want to keep building a life that makes us both proud.\nWill you do it with me?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYour love is the best part of my story.\nWill you keep writing it with me?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYou are my favorite person, my best friend, my everything.\nWill you be my forever Valentine?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nNo matter how life changes, I want my hand in yours.\nWill you be my always?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nEvery piece of us fits perfectly, even when we are different.\nWill you keep fitting your life with mine?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nYou make me believe in magic, in timing, and in us.\nWill you be my forever?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI want to love you in ways that keep surprising you.\nWill you keep letting me?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI do not have all the answers, but I know you are mine.\nWill you be my always and forever?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI want to celebrate every win and hold you through every storm.\nWill you be my forever Valentine?\n\nWith all my love,\nIshaan",
+    "Shivani Jain,\n\nI choose you in every version of my future.\nWill you choose me too?\n\nWith all my love,\nIshaan",
+];
+
+const puzzleImages = [
+    "../Images/Propose Day/roka.png",
+    "../Images/Propose Day/roka 2.png",
+    "../Images/Propose Day/roka 3.png",
+    "../Images/Propose Day/pre wed 4.JPG",
+    "../Images/Propose Day/pre wed 5.JPG",
 ];
 
 const state = {
@@ -76,9 +84,9 @@ function init() {
     });
 
     state.selectedMessage = proposalMessages[Math.floor(Math.random() * proposalMessages.length)];
+    baseImage.dataUrl = encodeURI(puzzleImages[Math.floor(Math.random() * puzzleImages.length)]);
     dom.proposalMessage.textContent = state.selectedMessage;
 
-    generateBaseImage();
 }
 
 function startPuzzle() {
@@ -108,51 +116,6 @@ function clearPieces() {
     state.pieces = [];
 }
 
-function generateBaseImage() {
-    const canvas = document.createElement("canvas");
-    canvas.width = baseImage.width;
-    canvas.height = baseImage.height;
-    const ctx = canvas.getContext("2d");
-
-    const gradient = ctx.createLinearGradient(0, 0, baseImage.width, baseImage.height);
-    gradient.addColorStop(0, "#e8d5f2");
-    gradient.addColorStop(1, "#b19cd9");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, baseImage.width, baseImage.height);
-
-    ctx.strokeStyle = "rgba(255,255,255,0.4)";
-    for (let c = 1; c < CONFIG.cols; c++) {
-        const x = (baseImage.width / CONFIG.cols) * c;
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, baseImage.height);
-        ctx.stroke();
-    }
-    for (let r = 1; r < CONFIG.rows; r++) {
-        const y = (baseImage.height / CONFIG.rows) * r;
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(baseImage.width, y);
-        ctx.stroke();
-    }
-
-    ctx.fillStyle = "rgba(63, 55, 83, 0.9)";
-    ctx.font = "bold 72px 'Playfair Display'";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    let counter = 1;
-    for (let row = 0; row < CONFIG.rows; row++) {
-        for (let col = 0; col < CONFIG.cols; col++) {
-            const centerX = (col + 0.5) * (baseImage.width / CONFIG.cols);
-            const centerY = (row + 0.5) * (baseImage.height / CONFIG.rows);
-            ctx.fillText(String(counter), centerX, centerY);
-            counter += 1;
-        }
-    }
-
-    baseImage.dataUrl = canvas.toDataURL("image/png");
-}
 
 function createPieces() {
     const pieceWidth = baseImage.width / CONFIG.cols;
@@ -198,8 +161,16 @@ function layoutPieces() {
     const boardHeight = boardRect.height;
     const pieceWidth = boardWidth / CONFIG.cols;
     const pieceHeight = boardHeight / CONFIG.rows;
+    const trayPadding = 20;
 
-    state.pieces.forEach((piece, index) => {
+    const unplacedPieces = state.pieces.filter((piece) => !piece.placed);
+    const shuffledPieces = shuffleArray([...unplacedPieces]);
+    const trayCols = Math.max(1, Math.floor((trayRect.width - trayPadding * 2) / (pieceWidth + 10)));
+    const trayRows = Math.max(1, Math.ceil(shuffledPieces.length / trayCols));
+    const slotWidth = (trayRect.width - trayPadding * 2) / trayCols;
+    const slotHeight = (trayRect.height - trayPadding * 2) / trayRows;
+
+    state.pieces.forEach((piece) => {
         piece.el.style.width = `${pieceWidth}px`;
         piece.el.style.height = `${pieceHeight}px`;
         piece.el.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
@@ -213,16 +184,37 @@ function layoutPieces() {
             piece.el.style.top = `${piece.correctY}px`;
             return;
         }
-
-        const trayPadding = 20;
-        const maxX = trayRect.width - pieceWidth - trayPadding;
-        const maxY = trayRect.height - pieceHeight - trayPadding;
-        const randomX = trayRect.left - gameRect.left + trayPadding + (index % CONFIG.cols) * (maxX / CONFIG.cols);
-        const randomY = trayRect.top - gameRect.top + trayPadding + Math.floor(index / CONFIG.cols) * (maxY / CONFIG.rows);
-
-        piece.el.style.left = `${randomX}px`;
-        piece.el.style.top = `${randomY}px`;
     });
+
+    shuffledPieces.forEach((piece, index) => {
+        const row = Math.floor(index / trayCols);
+        const col = index % trayCols;
+        const baseX = trayRect.left - gameRect.left + trayPadding + col * slotWidth;
+        const baseY = trayRect.top - gameRect.top + trayPadding + row * slotHeight;
+        const jitterX = Math.max(0, slotWidth - pieceWidth) * 0.5;
+        const jitterY = Math.max(0, slotHeight - pieceHeight) * 0.5;
+        const randomX = baseX + (Math.random() * jitterX * 2 - jitterX);
+        const randomY = baseY + (Math.random() * jitterY * 2 - jitterY);
+        const minX = trayRect.left - gameRect.left + trayPadding;
+        const minY = trayRect.top - gameRect.top + trayPadding;
+        const maxX = trayRect.left - gameRect.left + trayRect.width - trayPadding - pieceWidth;
+        const maxY = trayRect.top - gameRect.top + trayRect.height - trayPadding - pieceHeight;
+
+        piece.el.style.left = `${clamp(randomX, minX, maxX)}px`;
+        piece.el.style.top = `${clamp(randomY, minY, maxY)}px`;
+    });
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
 }
 
 function attachDragHandlers(piece) {
@@ -239,6 +231,8 @@ function attachDragHandlers(piece) {
             offsetY: event.clientY - rect.top,
             gameLeft: gameRect.left,
             gameTop: gameRect.top,
+            gameWidth: gameRect.width,
+            gameHeight: gameRect.height,
         };
     });
 
@@ -246,8 +240,12 @@ function attachDragHandlers(piece) {
         if (!state.dragging || state.dragging.piece !== piece) return;
         const x = event.clientX - state.dragging.gameLeft - state.dragging.offsetX;
         const y = event.clientY - state.dragging.gameTop - state.dragging.offsetY;
-        piece.el.style.left = `${x}px`;
-        piece.el.style.top = `${y}px`;
+        const maxX = state.dragging.gameWidth - piece.el.offsetWidth;
+        const maxY = state.dragging.gameHeight - piece.el.offsetHeight;
+        const clampedX = clamp(x, 0, maxX);
+        const clampedY = clamp(y, 0, maxY);
+        piece.el.style.left = `${clampedX}px`;
+        piece.el.style.top = `${clampedY}px`;
         checkProximity(piece);
     });
 

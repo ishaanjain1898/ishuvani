@@ -12,6 +12,8 @@
     --text: #3f3753;
     --card: rgba(255, 255, 255, 0.9);
     --shadow: rgba(68, 43, 92, 0.2);
+    --top-bar-height: 64px;
+    --page-padding: clamp(0.75rem, 1.5vw, 1.5rem);
 }
 
 body {
@@ -24,9 +26,10 @@ body {
 
 .app {
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .background-glow {
@@ -43,7 +46,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 2rem;
+    min-height: var(--top-bar-height);
+    padding: 0 var(--page-padding);
 }
 
 .brand {
@@ -152,8 +156,8 @@ body {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 80px);
-    padding: 1.5rem 2rem 2rem;
+    height: calc(100vh - var(--top-bar-height));
+    padding: var(--page-padding);
     gap: 1rem;
 }
 
@@ -189,6 +193,7 @@ body {
     grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
     gap: 1.5rem;
     position: relative;
+    min-height: 0;
 }
 
 .puzzle-board {
@@ -197,7 +202,8 @@ body {
     border-radius: 18px;
     box-shadow: 0 12px 40px rgba(68, 43, 92, 0.2);
     overflow: hidden;
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 5 / 3;
+    max-height: 100%;
 }
 
 .puzzle-board::before {
@@ -207,7 +213,7 @@ body {
     background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
-    background-size: 20% 25%;
+    background-size: 20% 33.3333%;
     pointer-events: none;
 }
 
@@ -218,6 +224,7 @@ body {
     padding: 1rem;
     box-shadow: 0 12px 30px rgba(68, 43, 92, 0.18);
     overflow: hidden;
+    max-height: 100%;
 }
 
 .tray-title {
@@ -235,6 +242,7 @@ body {
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     user-select: none;
     touch-action: none;
+    z-index: 5;
 }
 
 .puzzle-piece.dragging {
@@ -250,6 +258,7 @@ body {
 .puzzle-piece.placed {
     cursor: default;
     box-shadow: none;
+    z-index: 1;
 }
 
 .completion-overlay {
@@ -321,10 +330,12 @@ body {
 
 @media (max-width: 768px) {
     .top-bar {
-        padding: 1rem 1.2rem;
+        min-height: 56px;
+        padding: 0 1rem;
     }
 
     .game {
-        padding: 1rem 1.2rem 1.5rem;
+        height: calc(100vh - 56px);
+        padding: 1rem;
     }
 }
